@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Solar</title>
+    <link rel="stylesheet" href="primaria.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Juego: El Sistema Solar</h2>
+        <p>Arrastra desde el nombre para llevar todo lo que hay adentro y suelta los planetas en orden según su proximidad al Sol.</p>
+        <div id="sistema-solar-container">
+            <div class="planet" draggable="true" id="marte">
+                <img src="imagenes/marte.png" alt="Marte">
+                <p>Marte</p>
+            </div>
+            <div class="planet" draggable="true" id="venus">
+                <img src="imagenes/venus.png" alt="Venus">
+                <p>Venus</p>
+            </div>
+            <div class="planet" draggable="true" id="urano">
+                <img src="imagenes/urano.png" alt="Urano">
+                <p>Urano</p>
+            </div>
+            <div class="planet" draggable="true" id="neptuno">
+                <img src="imagenes/neptuno.png" alt="Neptuno">
+                <p>Neptuno</p>
+            </div>
+            <div class="planet" draggable="true" id="mercurio">
+                <img src="imagenes/mercurio.png" alt="Mercurio">
+                <p>Mercurio</p>
+            </div>
+            <div class="planet" draggable="true" id="jupiter">
+                <img src="imagenes/jupiter.png" alt="Júpiter">
+                <p>Júpiter</p>
+            </div>
+            <div class="planet" draggable="true" id="saturno">
+                <img src="imagenes/saturno.png" alt="Saturno">
+                <p>Saturno</p>
+            </div>
+            <div class="planet" draggable="true" id="tierra">
+                <img src="imagenes/tierra.png" alt="Tierra">
+                <p>Tierra</p>
+            </div>
+        </div>
+        <div id="target" class="target-area">
+            <div class="planet" id="sol" draggable="false">
+                <img src="imagenes/sol.jpg" alt="Sol">
+                <p>Sol</p>
+            </div>
+        </div>
+        <button onclick="resetGame()" class="button">Reiniciar Juego</button>
+        <button onclick="checkOrder()" class="button">Listo</button>
+        <button onclick="exitGame()" class="button">Salir</button>
+        <p id="feedback" class="feedback"></p>
+    </div>
+    <script>
+        const exitSound = new Audio('sonido.mp3');
+        const resetSound = new Audio('sonido.mp3');
+        const checkOrderSound = new Audio('seleccion.mp3');
+        const dragSound = new Audio('arrastrar.mp3');
+        const correctSound = new Audio('correcto.mp3'); 
+        const elements = document.querySelectorAll('.planet[draggable="true"]');
+        const target = document.getElementById('target');
+        const feedback = document.getElementById('feedback');
+        const correctOrder = ['mercurio', 'venus', 'tierra', 'marte', 'jupiter', 'saturno', 'urano', 'neptuno'];
+
+        elements.forEach(element => {
+            element.addEventListener('dragstart', e => {
+                dragSound.currentTime = 0; 
+                dragSound.play(); 
+                e.dataTransfer.setData('id', e.target.id);
+            });
+        });
+
+        target.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
+
+        target.addEventListener('drop', e => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData('id');
+            const existingElement = target.querySelector(`#${id}`);
+            if (!existingElement) {
+                const element = document.getElementById(id).cloneNode(true);
+                target.appendChild(element);
+            } else {
+                window.alert("Este planeta ya está seleccionado. Por favor, elige otro.");
+            }
+        });
+
+        function checkOrder() {
+            checkOrderSound.play();
+            const order = Array.from(target.querySelectorAll('.planet:not(#sol)')).map(el => el.id);
+            if (order.length === correctOrder.length) {
+                if (order.join() === correctOrder.join()) {
+                    correctSound.play(); 
+                    alert("¡Correcto! Has ordenado los planetas correctamente. 🎉");
+                } else {
+                    alert("El orden es incorrecto. 🚀 Inténtalo de nuevo.");
+                    resetGame();  
+                }
+            } else {
+                alert("Faltan planetas por ordenar. 🌍");
+                
+            }
+        }
+
+        function resetGame() {
+            resetSound.play();
+            target.innerHTML = `
+                <div class="planet" id="sol" draggable="false">
+                    <img src="imagenes/sol.jpg" alt="Sol">
+                    <p>Sol</p>
+                </div>`;
+            feedback.textContent = "";
+            feedback.style.color = "white";
+        }
+
+        function exitGame() {
+            exitSound.play();
+            exitSound.onended = () => {
+                if (confirm("¿Estás seguro de que quieres salir del juego?")) {
+                    window.location.href = "inicio.html";
+                }
+            };
+        }
+    </script>
+</body>
+</html>
