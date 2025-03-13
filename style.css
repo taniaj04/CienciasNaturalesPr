@@ -4,7 +4,7 @@ body {
     margin: 0;
     background: url('imagenes/fondo.jpg') no-repeat center center fixed;
     background-size: cover;
-    overflow: hidden;
+    overflow: auto;
     color: white;
     position: relative;
     display: flex; 
