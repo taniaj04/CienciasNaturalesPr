@@ -3,20 +3,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     background: url('imagenes/sistema.jpg') no-repeat center center/cover; 
     color: #fff;
+    overflow: auto; 
 }
 
 
 .container {
     text-align: center;
-    max-width: 1000px;
+    width: 90%;
+    max-width: 1200px;
     padding: 20px;
     background: rgba(114, 190, 168, 0.1);
     border-radius: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    overflow: hidden; 
 }
 
 h2 {
@@ -32,7 +35,7 @@ p {
 
 #sistema-solar-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
     justify-content: center;
     gap: 15px;
     margin-top: 20px;
@@ -87,9 +90,8 @@ p {
     width: 100%;
 }
 
-#target:hover {
-    background: rgba(255, 213, 79, 0.2);
-    box-shadow: 0 0 15px #ffd54f;
+#target {
+    min-height: 200px; /* Asegurar espacio suficiente */
 }
 
 .button {
