@@ -5,8 +5,9 @@ body {
     justify-content: center;
     min-height: 100vh;
     margin: 0;
-    background: url('imagenes/sistema.jpg') no-repeat center center/cover; 
-    color: #fff;
+background: url('imagenes/sistema.jpg') no-repeat center center;
+    background-size: contain; 
+    background-attachment: fixed;    color: #fff;
     overflow: auto; 
 }
 
